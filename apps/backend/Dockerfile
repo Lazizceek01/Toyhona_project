@@ -7,7 +7,7 @@ COPY packages/shared/package.json packages/shared/package.json
 RUN npm install
 
 COPY . .
-RUN npm run build --workspace @toyxona/backend
+RUN npm run prisma:generate --workspace @toyxona/backend
 
 EXPOSE 4000
-CMD ["npm", "run", "start", "--workspace", "@toyxona/backend"]
+CMD ["sh", "-c", "npm run prisma:migrate --workspace @toyxona/backend && npm run start --workspace @toyxona/backend"]
