@@ -25,23 +25,23 @@ const gallery = [
   {
     title: "Asosiy zal",
     image:
-      "https://images.unsplash.com/photo-1519167758481-83f29c86c39d?auto=format&fit=crop&w=1200&q=80",
+      "https://images.unsplash.com/photo-1519225421980-715cb0215aed?auto=format&fit=crop&w=1200&q=80",
     className: "lg:col-span-2 lg:row-span-2"
   },
   {
     title: "Dekor zona",
     image:
-      "https://images.unsplash.com/photo-1523438097201-512ae7d59c0b?auto=format&fit=crop&w=900&q=80"
+      "https://images.unsplash.com/photo-1522413452208-996ff3f3e740?auto=format&fit=crop&w=900&q=80"
   },
   {
     title: "Tantanali stol",
     image:
-      "https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?auto=format&fit=crop&w=900&q=80"
+      "https://images.unsplash.com/photo-1535254973040-607b474cb50d?auto=format&fit=crop&w=900&q=80"
   },
   {
     title: "Tungi muhit",
     image:
-      "https://images.unsplash.com/photo-1501386761578-eac5c94b800a?auto=format&fit=crop&w=900&q=80"
+      "https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=900&q=80"
   }
 ];
 
@@ -53,7 +53,7 @@ export default function HomePage() {
           className="relative min-h-[560px] bg-cover bg-center"
           style={{
             backgroundImage:
-              "url('https://images.unsplash.com/photo-1505935428862-770b6f24f629?auto=format&fit=crop&w=1600&q=80')"
+              "url('https://images.unsplash.com/photo-1464366400600-7168b8af9bc3?auto=format&fit=crop&w=1600&q=80')"
           }}
         >
           <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(12,10,8,0.18),rgba(12,10,8,0.66))]" />
@@ -84,7 +84,7 @@ export default function HomePage() {
             className="min-h-[420px] bg-cover bg-center grayscale"
             style={{
               backgroundImage:
-                "url('https://images.unsplash.com/photo-1511795409834-ef04bbd61622?auto=format&fit=crop&w=1200&q=80')"
+                "url('https://images.unsplash.com/photo-1465495976277-4387d4b0b4c6?auto=format&fit=crop&w=1200&q=80')"
             }}
           />
           <div className="absolute bottom-0 left-0 h-28 w-28 bg-amber-300" />

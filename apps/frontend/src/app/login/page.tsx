@@ -56,11 +56,11 @@ export default function LoginPage() {
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,_rgba(250,204,21,0.22),_transparent_26%),radial-gradient(circle_at_bottom_left,_rgba(251,191,36,0.12),_transparent_28%),linear-gradient(to_bottom_right,_rgba(255,255,255,0.04),_transparent_30%)]" />
           <div className="relative flex h-full flex-col justify-between gap-8">
             <div className="inline-flex w-fit items-center gap-2 rounded-full border border-white/15 bg-white/5 px-4 py-2 text-xs uppercase tracking-[0.32em] text-amber-200">
-              Access
+              Kirish
             </div>
 
             <div className="max-w-3xl space-y-5">
-              <p className="text-sm uppercase tracking-[0.35em] text-amber-200/80">Welcome back</p>
+              <p className="text-sm uppercase tracking-[0.35em] text-amber-200/80">Xush kelibsiz</p>
               <h1 className="font-display text-5xl leading-[1.02] tracking-tight sm:text-6xl lg:text-7xl">
                 Tizimga kirish — premium panelga yo&apos;l
               </h1>
@@ -91,7 +91,7 @@ export default function LoginPage() {
           <div className="grid gap-4 sm:grid-cols-[1.1fr_0.9fr]">
             <div className="rounded-[1.4rem] bg-[linear-gradient(180deg,rgba(120,53,15,0.96),rgba(28,25,23,0.96))] p-5 text-white">
               <p className="text-xs uppercase tracking-[0.3em] text-amber-200">Kirish paneli</p>
-              <h2 className="mt-3 font-display text-3xl leading-tight">Login, rol va yo&apos;nalish</h2>
+              <h2 className="mt-3 font-display text-3xl leading-tight">Kirish, rol va yo&apos;nalish</h2>
               <p className="mt-3 text-sm leading-6 text-amber-50/75">
                 Foydalanuvchi platformadagi kerakli oqimga bir zumda o&apos;tadi.
               </p>
