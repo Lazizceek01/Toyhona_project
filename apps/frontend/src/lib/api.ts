@@ -19,7 +19,16 @@ export const apiFetch = async <T>(path: string, init?: RequestInit): Promise<T> 
 
   if (!response.ok) {
     const text = await response.text();
-    throw new Error(text || `Request failed: ${response.status}`);
+    let message = text;
+    try {
+      const parsed = JSON.parse(text) as { message?: unknown };
+      if (typeof parsed.message === "string" && parsed.message.length > 0) {
+        message = parsed.message;
+      }
+    } catch {
+      // response body was not JSON; keep raw text
+    }
+    throw new Error(message || `Request failed: ${response.status}`);
   }
   return response.json() as Promise<T>;
 };

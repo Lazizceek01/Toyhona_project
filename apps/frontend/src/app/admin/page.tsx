@@ -171,9 +171,9 @@ export default function AdminPage() {
   ];
 
   const serviceRows = [
-    { name: "Imperial Catering", item: 142, revenue: "$420k", growth: "+12%" },
-    { name: "Floral Artisans", item: 86, revenue: "$95k", growth: "+8%" },
-    { name: "Lighting & VFX", item: 114, revenue: "$220k", growth: "+21%" }
+    { name: "Katering xizmati", item: 142, revenue: "$420k", growth: "+12%" },
+    { name: "Gul bezagi", item: 86, revenue: "$95k", growth: "+8%" },
+    { name: "Yoritish va effekt", item: 114, revenue: "$220k", growth: "+21%" }
   ];
 
   const recentActivity = bookings.slice(0, 4).map((booking, index) => ({
@@ -181,7 +181,7 @@ export default function AdminPage() {
     venue: booking.hall?.name ?? booking.hallId,
     date: booking.eventDate,
     status: booking.status,
-    label: index === 0 ? "NEW" : index === 1 ? "PENDING" : index === 2 ? "CONFIRMED" : "PROCESSING"
+    label: index === 0 ? "YANGI" : index === 1 ? "KUTILMOQDA" : index === 2 ? "TASDIQLANGAN" : "JARAYONDA"
   }));
 
   return (
@@ -190,16 +190,16 @@ export default function AdminPage() {
         <aside className="rounded-[2rem] border border-stone-200 bg-white p-6 shadow-[0_20px_60px_rgba(15,23,42,0.06)]">
           <div>
             <p className="font-display text-3xl tracking-[0.16em] text-stone-900">Royal Palace</p>
-            <p className="mt-1 text-xs uppercase tracking-[0.34em] text-amber-700">Management Suite</p>
+            <p className="mt-1 text-xs uppercase tracking-[0.34em] text-amber-700">Boshqaruv tizimi</p>
           </div>
 
           <nav className="mt-8 space-y-2 text-sm font-medium text-stone-600">
             {[
-              ["Dashboard", "■"],
-              ["Calendar", "◫"],
-              ["Bookings", "⌂"],
-              ["Services", "◉"],
-              ["Financials", "$"]
+              ["Boshqaruv", "■"],
+              ["Kalendar", "◫"],
+              ["Bronlar", "⌂"],
+              ["Xizmatlar", "◉"],
+              ["Moliya", "$"]
             ].map(([label, icon], idx) => (
               <div key={label} className={`flex items-center gap-3 rounded-2xl px-4 py-3 ${idx === 0 ? "bg-[#f4ecd8] text-stone-900" : "hover:bg-stone-100"}`}>
                 <span className="text-xs text-amber-700">{icon}</span>
@@ -209,13 +209,13 @@ export default function AdminPage() {
           </nav>
 
           <button onClick={refreshDashboard} className="mt-8 w-full rounded-2xl bg-stone-900 px-4 py-3 text-sm font-semibold text-white transition hover:bg-stone-800">
-            + New Booking
+            + Yangi bron
           </button>
 
           <div className="mt-8 space-y-3 text-sm text-stone-500">
-            <div className="flex items-center gap-3 rounded-2xl px-4 py-3 hover:bg-stone-100">Support</div>
+            <div className="flex items-center gap-3 rounded-2xl px-4 py-3 hover:bg-stone-100">Yordam</div>
             <button onClick={logout} className="flex w-full items-center gap-3 rounded-2xl px-4 py-3 text-left hover:bg-stone-100">
-              Sign Out
+              Chiqish
             </button>
           </div>
         </aside>
@@ -224,18 +224,18 @@ export default function AdminPage() {
           <header className="rounded-[2rem] border border-stone-200 bg-white px-6 py-5 shadow-[0_20px_60px_rgba(15,23,42,0.06)] lg:px-8">
             <div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
               <div>
-                <p className="text-xs uppercase tracking-[0.42em] text-amber-700">Royal Palace Dashboard</p>
+                <p className="text-xs uppercase tracking-[0.42em] text-amber-700">Royal Palace boshqaruvi</p>
                 <h1 className="mt-3 font-display text-5xl leading-[0.95] text-stone-950 sm:text-6xl">
-                  Executive Overview
+                  Umumiy ko&apos;rinish
                 </h1>
                 <p className="mt-3 max-w-2xl text-sm leading-7 text-stone-600">
-                  Strategic insights for the Imperial Heritage venue operations and live booking flow.
+                  Zal faoliyati va jonli bron oqimi bo&apos;yicha strategik ko&apos;rsatkichlar.
                 </p>
-                <p className="mt-2 text-xs uppercase tracking-[0.3em] text-stone-500">Managing {halls.length} halls</p>
+                <p className="mt-2 text-xs uppercase tracking-[0.3em] text-stone-500">{halls.length} ta zal boshqarilmoqda</p>
               </div>
               <div className="flex flex-wrap items-center gap-3">
                 <Link href="/login" className="rounded-full border border-stone-300 px-4 py-2 text-sm font-semibold text-stone-900 transition hover:bg-stone-100">
-                  Login
+                  Kirish
                 </Link>
                 <button onClick={logout} className="rounded-full bg-stone-900 px-4 py-2 text-sm font-semibold text-white transition hover:bg-stone-800">
                   Chiqish
@@ -253,10 +253,10 @@ export default function AdminPage() {
 
           <section className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
             {[
-              ["Total Bookings", bookings.length.toLocaleString(), "12% last month"],
-              ["Active Events", String(halls.length), "Peak season"],
-              ["Monthly Revenue", "$2.4M", "Exceeding targets"],
-              ["Pending Requests", String(bookings.filter((booking) => booking.status === "pending").length), "Urgent"]
+              ["Jami bronlar", bookings.length.toLocaleString(), "O'tgan oyga +12%"],
+              ["Faol tadbirlar", String(halls.length), "Mavsum cho'qqisi"],
+              ["Oylik daromad", "$2.4M", "Reja oshmoqda"],
+              ["Kutilayotgan so'rovlar", String(bookings.filter((booking) => booking.status === "pending").length), "Shoshilinch"]
             ].map(([label, value, sub]) => (
               <article key={label} className="rounded-[1.8rem] border border-stone-200 bg-white p-5 shadow-[0_18px_50px_rgba(15,23,42,0.05)]">
                 <p className="text-[11px] uppercase tracking-[0.35em] text-amber-700">{sub}</p>
@@ -270,16 +270,16 @@ export default function AdminPage() {
             <article className="rounded-[2rem] border border-stone-200 bg-white p-6 shadow-[0_20px_60px_rgba(15,23,42,0.06)]">
               <div className="flex items-center justify-between gap-3">
                 <div>
-                  <p className="text-xs uppercase tracking-[0.36em] text-amber-700">Yillik Daromad</p>
-                  <h2 className="mt-2 font-display text-3xl text-stone-950">Annual Revenue 2024</h2>
+                  <p className="text-xs uppercase tracking-[0.36em] text-amber-700">Yillik daromad</p>
+                  <h2 className="mt-2 font-display text-3xl text-stone-950">Daromad 2024</h2>
                 </div>
-                <button className="rounded-full bg-stone-900 px-4 py-2 text-xs font-semibold text-white">Export report</button>
+                <button className="rounded-full bg-stone-900 px-4 py-2 text-xs font-semibold text-white">Hisobotni yuklash</button>
               </div>
               <div className="mt-8 rounded-[1.8rem] border border-stone-200 bg-stone-50 p-5">
-                <div className="flex h-64 items-end gap-3">
+                <div className="flex h-64 items-stretch gap-3">
                   {monthlyRevenue.map((item) => (
                     <div key={item.month} className="flex flex-1 flex-col items-center gap-3">
-                      <div className="flex h-full w-full items-end justify-center">
+                      <div className="flex w-full flex-1 items-end justify-center">
                         <div className="w-full max-w-7 rounded-t-full bg-[linear-gradient(180deg,#b48a1e,#3f2a07)]" style={{ height: `${item.value}%` }} />
                       </div>
                       <span className="text-[10px] font-semibold tracking-[0.2em] text-stone-500">{item.month}</span>
@@ -293,23 +293,23 @@ export default function AdminPage() {
               <article className="rounded-[2rem] border border-stone-200 bg-white p-6 shadow-[0_20px_60px_rgba(15,23,42,0.06)]">
                 <div className="flex items-center justify-between gap-3">
                   <div>
-                    <p className="text-xs uppercase tracking-[0.36em] text-amber-700">Zal occupancy</p>
-                    <h2 className="mt-2 font-display text-3xl text-stone-950">88% Total</h2>
+                    <p className="text-xs uppercase tracking-[0.36em] text-amber-700">Zal bandligi</p>
+                    <h2 className="mt-2 font-display text-3xl text-stone-950">Jami 88%</h2>
                   </div>
                   <div className="h-24 w-24 rounded-full" style={{ background: "conic-gradient(#b48a1e 0 88%, #e5e7eb 88% 100%)" }} />
                 </div>
                 <ul className="mt-5 space-y-2 text-sm text-stone-600">
-                  <li className="flex justify-between"><span>Gold Hall</span><span>60%</span></li>
-                  <li className="flex justify-between"><span>Silver Hall</span><span>30%</span></li>
-                  <li className="flex justify-between"><span>VIP Suite</span><span>10%</span></li>
+                  <li className="flex justify-between"><span>Oltin Zal</span><span>60%</span></li>
+                  <li className="flex justify-between"><span>Kumush Zal</span><span>30%</span></li>
+                  <li className="flex justify-between"><span>VIP Zal</span><span>10%</span></li>
                 </ul>
               </article>
 
               <article className="rounded-[2rem] border border-stone-200 bg-white p-6 shadow-[0_20px_60px_rgba(15,23,42,0.06)]">
                 <div className="flex items-center justify-between">
                   <div>
-                    <p className="text-xs uppercase tracking-[0.36em] text-amber-700">Top services</p>
-                    <h2 className="mt-2 font-display text-3xl text-stone-950">Revenue drivers</h2>
+                    <p className="text-xs uppercase tracking-[0.36em] text-amber-700">Ommabop xizmatlar</p>
+                    <h2 className="mt-2 font-display text-3xl text-stone-950">Daromad manbalari</h2>
                   </div>
                 </div>
                 <div className="mt-5 space-y-4 text-sm">
@@ -317,7 +317,7 @@ export default function AdminPage() {
                     <div key={row.name} className="flex items-center justify-between rounded-2xl border border-stone-200 bg-stone-50 px-4 py-3">
                       <div>
                         <p className="font-medium text-stone-950">{row.name}</p>
-                        <p className="text-xs text-stone-500">Transactions {row.item}</p>
+                        <p className="text-xs text-stone-500">Bitimlar {row.item}</p>
                       </div>
                       <div className="text-right">
                         <p className="font-semibold text-stone-950">{row.revenue}</p>
@@ -334,19 +334,19 @@ export default function AdminPage() {
             <article className="rounded-[2rem] border border-stone-200 bg-white p-6 shadow-[0_20px_60px_rgba(15,23,42,0.06)]">
               <div className="flex items-center justify-between gap-3">
                 <div>
-                  <p className="text-xs uppercase tracking-[0.36em] text-amber-700">Recent Activity</p>
-                  <h2 className="mt-2 font-display text-3xl text-stone-950">Live booking queue</h2>
+                  <p className="text-xs uppercase tracking-[0.36em] text-amber-700">So&apos;nggi faollik</p>
+                  <h2 className="mt-2 font-display text-3xl text-stone-950">Jonli bron navbati</h2>
                 </div>
-                <span className="text-xs uppercase tracking-[0.3em] text-stone-400">View all</span>
+                <span className="text-xs uppercase tracking-[0.3em] text-stone-400">Hammasi</span>
               </div>
               <div className="mt-5 overflow-hidden rounded-[1.6rem] border border-stone-200">
                 <table className="w-full text-left text-sm">
                   <thead className="bg-stone-50 text-[11px] uppercase tracking-[0.28em] text-stone-500">
                     <tr>
-                      <th className="px-4 py-3 font-medium">Client</th>
-                      <th className="px-4 py-3 font-medium">Venue</th>
-                      <th className="px-4 py-3 font-medium">Date</th>
-                      <th className="px-4 py-3 font-medium">Status</th>
+                      <th className="px-4 py-3 font-medium">Mijoz</th>
+                      <th className="px-4 py-3 font-medium">Zal</th>
+                      <th className="px-4 py-3 font-medium">Sana</th>
+                      <th className="px-4 py-3 font-medium">Holat</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -371,11 +371,11 @@ export default function AdminPage() {
               <article className="rounded-[2rem] border border-stone-200 bg-white p-6 shadow-[0_20px_60px_rgba(15,23,42,0.06)]">
                 <div className="flex items-center justify-between gap-3">
                   <div>
-                    <p className="text-xs uppercase tracking-[0.36em] text-amber-700">Quick actions</p>
-                    <h2 className="mt-2 font-display text-3xl text-stone-950">Manage bookings</h2>
+                    <p className="text-xs uppercase tracking-[0.36em] text-amber-700">Tezkor amallar</p>
+                    <h2 className="mt-2 font-display text-3xl text-stone-950">Bronlarni boshqarish</h2>
                   </div>
                   <button onClick={refreshDashboard} className="rounded-full border border-stone-300 px-4 py-2 text-xs font-semibold text-stone-900 transition hover:bg-stone-100">
-                    Refresh
+                    Yangilash
                   </button>
                 </div>
                 <div className="mt-5 space-y-4">
@@ -401,7 +401,7 @@ export default function AdminPage() {
                           ))}
                         </select>
                         <button onClick={() => updateBookingStatus(booking.id)} className="rounded-xl bg-stone-900 px-4 py-2 text-sm font-semibold text-white">
-                          Save
+                          Saqlash
                         </button>
                       </div>
                     </div>
@@ -410,7 +410,7 @@ export default function AdminPage() {
               </article>
 
               <article className="rounded-[2rem] border border-stone-200 bg-white p-6 shadow-[0_20px_60px_rgba(15,23,42,0.06)]">
-                <p className="text-xs uppercase tracking-[0.36em] text-amber-700">Live queue</p>
+                <p className="text-xs uppercase tracking-[0.36em] text-amber-700">Jonli navbat</p>
                 <ul className="mt-4 space-y-2 text-sm text-stone-600">
                   {liveStats.length ? liveStats.map((item, idx) => (
                     <li key={`${item}-${idx}`} className="rounded-xl border border-stone-200 bg-stone-50 px-3 py-2">{item}</li>
@@ -422,18 +422,18 @@ export default function AdminPage() {
 
           <section className="grid gap-5 xl:grid-cols-[0.95fr_0.95fr_0.95fr]">
             <form onSubmit={createHall} className="rounded-[2rem] border border-stone-200 bg-white p-6 shadow-[0_20px_60px_rgba(15,23,42,0.06)]">
-              <p className="text-xs uppercase tracking-[0.36em] text-amber-700">New hall</p>
+              <p className="text-xs uppercase tracking-[0.36em] text-amber-700">Yangi zal</p>
               <h3 className="mt-2 font-display text-3xl text-stone-950">Yangi zal qo&apos;shish</h3>
               <div className="mt-4 space-y-3">
                 <input value={hallForm.name} onChange={(event) => setHallForm((prev) => ({ ...prev, name: event.target.value }))} placeholder="Zal nomi" className="w-full rounded-xl border border-stone-300 px-3 py-3 text-sm" />
                 <input type="number" value={hallForm.capacity} onChange={(event) => setHallForm((prev) => ({ ...prev, capacity: Number(event.target.value) }))} placeholder="Sig'imi" className="w-full rounded-xl border border-stone-300 px-3 py-3 text-sm" />
                 <input type="number" value={hallForm.pricePerSeat} onChange={(event) => setHallForm((prev) => ({ ...prev, pricePerSeat: Number(event.target.value) }))} placeholder="Narx" className="w-full rounded-xl border border-stone-300 px-3 py-3 text-sm" />
-                <button className="w-full rounded-xl bg-stone-900 px-4 py-3 text-sm font-semibold text-white">Create hall</button>
+                <button className="w-full rounded-xl bg-stone-900 px-4 py-3 text-sm font-semibold text-white">Zal yaratish</button>
               </div>
             </form>
 
             <form onSubmit={createPayment} className="rounded-[2rem] border border-stone-200 bg-white p-6 shadow-[0_20px_60px_rgba(15,23,42,0.06)]">
-              <p className="text-xs uppercase tracking-[0.36em] text-amber-700">Payments</p>
+              <p className="text-xs uppercase tracking-[0.36em] text-amber-700">To&apos;lovlar</p>
               <h3 className="mt-2 font-display text-3xl text-stone-950">To&apos;lov qo&apos;shish</h3>
               <div className="mt-4 space-y-3">
                 <select value={paymentForm.bookingId} onChange={(event) => setPaymentForm((prev) => ({ ...prev, bookingId: event.target.value }))} className="w-full rounded-xl border border-stone-300 px-3 py-3 text-sm">
@@ -448,13 +448,13 @@ export default function AdminPage() {
                   <option value="failed">failed</option>
                   <option value="refunded">refunded</option>
                 </select>
-                <button className="w-full rounded-xl bg-stone-900 px-4 py-3 text-sm font-semibold text-white">Save payment</button>
+                <button className="w-full rounded-xl bg-stone-900 px-4 py-3 text-sm font-semibold text-white">To&apos;lovni saqlash</button>
               </div>
             </form>
 
             <div className="rounded-[2rem] border border-stone-200 bg-white p-6 shadow-[0_20px_60px_rgba(15,23,42,0.06)]">
-              <p className="text-xs uppercase tracking-[0.36em] text-amber-700">Notifications</p>
-              <h3 className="mt-2 font-display text-3xl text-stone-950">System status</h3>
+              <p className="text-xs uppercase tracking-[0.36em] text-amber-700">Bildirishnomalar</p>
+              <h3 className="mt-2 font-display text-3xl text-stone-950">Tizim holati</h3>
               <div className="mt-4 rounded-[1.4rem] bg-stone-50 p-4 text-sm text-stone-600">
                 {status === "loading" ? "Dashboard yuklanmoqda..." : "Tizim faol, real-time oqim ishlayapti."}
               </div>

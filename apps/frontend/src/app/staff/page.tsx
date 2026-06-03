@@ -104,9 +104,9 @@ export default function StaffPage() {
   };
 
   const stats = [
-    { label: "Tasks", value: String(tasks.length) },
-    { label: "Shifts", value: String(shifts.length) },
-    { label: "Done today", value: String(tasks.filter((task) => task.status === "done").length) }
+    { label: "Vazifalar", value: String(tasks.length) },
+    { label: "Smenalar", value: String(shifts.length) },
+    { label: "Bugun bajarilgan", value: String(tasks.filter((task) => task.status === "done").length) }
   ];
 
   const eventRows = tasks.slice(0, 3);
@@ -117,15 +117,15 @@ export default function StaffPage() {
         <aside className="rounded-[2rem] border border-stone-200 bg-white p-6 shadow-[0_20px_60px_rgba(15,23,42,0.06)]">
           <div>
             <p className="font-display text-3xl tracking-[0.16em] text-stone-900">Royal Palace</p>
-            <p className="mt-1 text-xs uppercase tracking-[0.34em] text-amber-700">Management Suite</p>
+            <p className="mt-1 text-xs uppercase tracking-[0.34em] text-amber-700">Boshqaruv tizimi</p>
           </div>
 
           <nav className="mt-8 space-y-2 text-sm font-medium text-stone-600">
             {[
-              ["My Events", "◫"],
-              ["Messages", "✉"],
-              ["Billing", "$"],
-              ["Settings", "⚙"]
+              ["Tadbirlarim", "◫"],
+              ["Xabarlar", "✉"],
+              ["Hisob", "$"],
+              ["Sozlamalar", "⚙"]
             ].map(([label, icon], idx) => (
               <div key={label} className={`flex items-center gap-3 rounded-2xl px-4 py-3 ${idx === 0 ? "bg-[#f4ecd8] text-stone-900" : "hover:bg-stone-100"}`}>
                 <span className="text-xs text-amber-700">{icon}</span>
@@ -135,9 +135,9 @@ export default function StaffPage() {
           </nav>
 
           <div className="mt-8 space-y-3 text-sm text-stone-500">
-            <div className="flex items-center gap-3 rounded-2xl px-4 py-3 hover:bg-stone-100">Support</div>
+            <div className="flex items-center gap-3 rounded-2xl px-4 py-3 hover:bg-stone-100">Yordam</div>
             <button onClick={logout} className="flex w-full items-center gap-3 rounded-2xl px-4 py-3 text-left hover:bg-stone-100">
-              Sign Out
+              Chiqish
             </button>
           </div>
         </aside>
@@ -153,14 +153,14 @@ export default function StaffPage() {
                 <p className="mt-3 max-w-2xl text-sm leading-7 text-stone-600">
                   Smena, task va o&apos;tgan ishlar bir qarashda. Jamoa uchun toza, aniq va tez boshqaruv.
                 </p>
-                <p className="mt-2 text-xs uppercase tracking-[0.3em] text-stone-500">System status: {status}</p>
+                <p className="mt-2 text-xs uppercase tracking-[0.3em] text-stone-500">Tizim holati: {status}</p>
               </div>
               <div className="flex flex-wrap items-center gap-3">
                 <Link href="/login" className="rounded-full border border-stone-300 px-4 py-2 text-sm font-semibold text-stone-900 transition hover:bg-stone-100">
-                  Login
+                  Kirish
                 </Link>
                 <button onClick={refreshStaffData} className="rounded-full bg-stone-900 px-4 py-2 text-sm font-semibold text-white transition hover:bg-stone-800">
-                  Refresh
+                  Yangilash
                 </button>
               </div>
             </div>
@@ -189,8 +189,8 @@ export default function StaffPage() {
                   }}
                 />
                 <div className="p-7 lg:p-8">
-                  <p className="text-xs uppercase tracking-[0.38em] text-amber-700">Sizing kevingi tadbiringiz</p>
-                  <h2 className="mt-3 font-display text-4xl leading-tight text-stone-950">Wedding in Golden Hall</h2>
+                  <p className="text-xs uppercase tracking-[0.38em] text-amber-700">Sizning keyingi tadbiringiz</p>
+                  <h2 className="mt-3 font-display text-4xl leading-tight text-stone-950">Oltin Zalda to&apos;y marosimi</h2>
                   <p className="mt-4 text-sm leading-7 text-stone-600">
                     Boshqaruv paneli yordamida navbatdagi tadbirlar, xabarlar va vazifalar aniq ko&apos;rinadi.
                   </p>
@@ -230,7 +230,7 @@ export default function StaffPage() {
               <article className="rounded-[2rem] border border-stone-200 bg-stone-900 p-6 text-white shadow-[0_20px_60px_rgba(15,23,42,0.06)]">
                 <p className="text-xs uppercase tracking-[0.36em] text-amber-200">Imtiyoz</p>
                 <h3 className="mt-3 font-display text-3xl leading-tight">Darajangiz</h3>
-                <p className="mt-2 text-sm text-stone-300">Royal Heritage Member</p>
+                <p className="mt-2 text-sm text-stone-300">Doimiy a&apos;zo</p>
                 <p className="mt-6 font-display text-5xl text-amber-200">12,500</p>
                 <p className="mt-2 text-sm text-stone-300">Kundalik nazorat uchun ballar.</p>
               </article>
@@ -242,9 +242,9 @@ export default function StaffPage() {
               <div className="flex items-center justify-between gap-3">
                 <div>
                   <p className="text-xs uppercase tracking-[0.36em] text-amber-700">O&apos;tgan tadbirlar</p>
-                  <h2 className="mt-2 font-display text-3xl text-stone-950">Event history</h2>
+                  <h2 className="mt-2 font-display text-3xl text-stone-950">Tadbirlar tarixi</h2>
                 </div>
-                <span className="text-xs uppercase tracking-[0.3em] text-stone-400">View all</span>
+                <span className="text-xs uppercase tracking-[0.3em] text-stone-400">Hammasi</span>
               </div>
               <div className="mt-5 overflow-hidden rounded-[1.6rem] border border-stone-200">
                 <table className="w-full text-left text-sm">
@@ -261,7 +261,7 @@ export default function StaffPage() {
                       <tr key={task.id} className="border-t border-stone-200">
                         <td className="px-4 py-4 font-medium text-stone-950">{task.title}</td>
                         <td className="px-4 py-4 text-stone-600">2024-0{index + 1}-22</td>
-                        <td className="px-4 py-4 text-stone-600">Imperial Ballroom</td>
+                        <td className="px-4 py-4 text-stone-600">Oltin Zal</td>
                         <td className="px-4 py-4 text-amber-700">Kvitansiya ↑</td>
                       </tr>
                     ))}
@@ -278,7 +278,7 @@ export default function StaffPage() {
                     <h2 className="mt-2 font-display text-3xl text-stone-950">Bugungi ishlar</h2>
                   </div>
                   <button onClick={refreshStaffData} className="rounded-full border border-stone-300 px-4 py-2 text-xs font-semibold text-stone-900 transition hover:bg-stone-100">
-                    Refresh
+                    Yangilash
                   </button>
                 </div>
                 <div className="mt-5 space-y-3">
@@ -295,7 +295,7 @@ export default function StaffPage() {
                         <select value={taskDrafts[task.id] ?? task.status} onChange={(event) => setTaskDrafts((prev) => ({ ...prev, [task.id]: event.target.value }))} className="w-full rounded-xl border border-stone-300 bg-white px-3 py-2 text-sm">
                           {taskStatuses.map((taskStatus) => <option key={taskStatus} value={taskStatus}>{taskStatus}</option>)}
                         </select>
-                        <button onClick={() => updateTaskStatus(task.id)} className="rounded-xl bg-stone-900 px-4 py-2 text-sm font-semibold text-white">Save</button>
+                        <button onClick={() => updateTaskStatus(task.id)} className="rounded-xl bg-stone-900 px-4 py-2 text-sm font-semibold text-white">Saqlash</button>
                       </div>
                     </div>
                   ))}
@@ -315,12 +315,12 @@ export default function StaffPage() {
               </article>
 
               <form onSubmit={createTask} className="rounded-[2rem] border border-stone-200 bg-white p-6 shadow-[0_20px_60px_rgba(15,23,42,0.06)]">
-                <p className="text-xs uppercase tracking-[0.36em] text-amber-700">New task</p>
+                <p className="text-xs uppercase tracking-[0.36em] text-amber-700">Yangi vazifa</p>
                 <h3 className="mt-2 font-display text-3xl text-stone-950">Yangi vazifa</h3>
                 <div className="mt-4 space-y-3">
                   <input value={taskForm.title} onChange={(event) => setTaskForm((prev) => ({ ...prev, title: event.target.value }))} placeholder="Sarlavha" className="w-full rounded-xl border border-stone-300 px-3 py-3 text-sm" />
                   <textarea value={taskForm.description} onChange={(event) => setTaskForm((prev) => ({ ...prev, description: event.target.value }))} placeholder="Tavsif" className="min-h-24 w-full rounded-xl border border-stone-300 px-3 py-3 text-sm" />
-                  <input value={taskForm.assigneeId} onChange={(event) => setTaskForm((prev) => ({ ...prev, assigneeId: event.target.value }))} placeholder="Assignee ID" className="w-full rounded-xl border border-stone-300 px-3 py-3 text-sm" />
+                  <input value={taskForm.assigneeId} onChange={(event) => setTaskForm((prev) => ({ ...prev, assigneeId: event.target.value }))} placeholder="Mas'ul ID" className="w-full rounded-xl border border-stone-300 px-3 py-3 text-sm" />
                   <input type="date" value={taskForm.dueDate} onChange={(event) => setTaskForm((prev) => ({ ...prev, dueDate: event.target.value }))} className="w-full rounded-xl border border-stone-300 px-3 py-3 text-sm" />
                   <button className="w-full rounded-xl bg-stone-900 px-4 py-3 text-sm font-semibold text-white">Task qo&apos;shish</button>
                 </div>

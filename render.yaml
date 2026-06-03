@@ -1,0 +1,51 @@
+databases:
+  - name: toyxona-db
+    databaseName: toyxona_db
+    user: toyxona
+    plan: free
+
+services:
+  # Backend — Fastify API + Socket.IO
+  - type: web
+    name: toyxona-backend
+    runtime: node
+    plan: free
+    branch: devin/1780464891-finish-platform
+    healthCheckPath: /api/health
+    buildCommand: npm install --include=dev && npm run prisma:generate --workspace @toyxona/backend
+    startCommand: npm run prisma:migrate --workspace @toyxona/backend && npm run db:seed --workspace @toyxona/backend && npm run start --workspace @toyxona/backend
+    envVars:
+      - key: DATABASE_URL
+        fromDatabase:
+          name: toyxona-db
+          property: connectionString
+      - key: JWT_SECRET
+        generateValue: true
+      - key: NODE_ENV
+        value: production
+      - key: HOST
+        value: 0.0.0.0
+      # Frontend manzilini frontend deploy bo'lgach shu yerga yozing
+      # (masalan: https://toyxona-frontend.onrender.com)
+      - key: CORS_ORIGIN
+        sync: false
+
+  # Frontend — Next.js
+  - type: web
+    name: toyxona-frontend
+    runtime: node
+    plan: free
+    branch: devin/1780464891-finish-platform
+    buildCommand: npm install --include=dev && npm run build --workspace @toyxona/frontend
+    startCommand: npm run start --workspace @toyxona/frontend
+    envVars:
+      - key: NODE_ENV
+        value: production
+      # Backend manzili (oxirida /api bilan), masalan:
+      # https://toyxona-backend.onrender.com/api
+      - key: NEXT_PUBLIC_API_URL
+        sync: false
+      # Backend manzili (/api siz), masalan:
+      # https://toyxona-backend.onrender.com
+      - key: NEXT_PUBLIC_WS_URL
+        sync: false

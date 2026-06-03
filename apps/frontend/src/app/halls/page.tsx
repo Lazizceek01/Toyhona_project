@@ -4,7 +4,7 @@ const halls = [
   {
     name: "Oltin Zal",
     image:
-      "https://images.unsplash.com/photo-1519167758481-83f29c86c39d?auto=format&fit=crop&w=1400&q=80",
+      "https://images.unsplash.com/photo-1511795409834-ef04bbd61622?auto=format&fit=crop&w=1400&q=80",
     text:
       "Katta tantanalar uchun mo‘ljallangan, oltin ohangdagi hashamatli interyer va yorug‘lik bilan bezatilgan asosiy zal.",
     detail: "120–250 mehmon · Premium servis · Sahna va raqs maydoni"
@@ -12,7 +12,7 @@ const halls = [
   {
     name: "Kumush Zal",
     image:
-      "https://images.unsplash.com/photo-1501386761578-eac5c94b800a?auto=format&fit=crop&w=1400&q=80",
+      "https://images.unsplash.com/photo-1519225421980-715cb0215aed?auto=format&fit=crop&w=1400&q=80",
     text:
       "Keng banketlar va rasmiy marosimlar uchun mo‘ljallangan sovuq, nafis va zamonaviy ko‘rinish.",
     detail: "90–180 mehmon · Zamonaviy dekor · Toza minimalist uslub"
