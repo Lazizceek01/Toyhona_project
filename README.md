@@ -16,11 +16,23 @@ To'liq web platforma:
    - `npm.cmd install`
 3. Prisma client:
    - `npm.cmd run prisma:generate --workspace @toyxona/backend`
-4. Migration:
+4. Migration (jadvallarni yaratadi):
    - `npm.cmd run prisma:migrate --workspace @toyxona/backend`
-5. Ishga tushirish:
+5. Boshlang'ich foydalanuvchilar (seed):
+   - `npm.cmd run db:seed --workspace @toyxona/backend`
+6. Ishga tushirish:
    - Frontend: `npm.cmd run dev:frontend`
    - Backend: `npm.cmd run dev:backend`
+
+## Autentifikatsiya
+- Parollar `bcryptjs` bilan hash qilinadi va foydalanuvchilar PostgreSQL bazasida saqlanadi.
+- `POST /api/auth/register` — yangi `client` hisob yaratadi (`email`, `password`, `fullName`, ixtiyoriy `phone`).
+- `POST /api/auth/login` — `email` va `password` bilan kirish; rol bazadagi hisobga qarab qaytariladi.
+- Seed orqali yaratiladigan test hisoblari (default parol: `123456`):
+  - `admin@toyxona.uz` — super_admin
+  - `manager@toyxona.uz` — manager
+  - `staff@toyxona.uz` — staff
+  - `client@toyxona.uz` — client
 
 ## Asosiy URL'lar
 - Frontend: `http://localhost:3000`

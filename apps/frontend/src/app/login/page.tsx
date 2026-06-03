@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { apiFetch } from "@/lib/api";
 import { setToken } from "@/lib/auth";
@@ -14,7 +15,6 @@ export default function LoginPage() {
   const router = useRouter();
   const [email, setEmail] = useState("admin@toyxona.uz");
   const [password, setPassword] = useState("123456");
-  const [role, setRole] = useState("manager");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
@@ -26,7 +26,7 @@ export default function LoginPage() {
     try {
       const data = await apiFetch<LoginResponse>("/auth/login", {
         method: "POST",
-        body: JSON.stringify({ email, password, role })
+        body: JSON.stringify({ email, password })
       });
 
       setToken(data.token);
@@ -65,8 +65,8 @@ export default function LoginPage() {
                 Tizimga kirish — premium panelga yo&apos;l
               </h1>
               <p className="max-w-2xl text-base leading-8 text-amber-50/80 sm:text-lg">
-                Demo backend har qanday email/parolni qabul qiladi. Tanlangan rol sizni client,
-                staff yoki admin oqimiga olib boradi.
+                Email va parolingiz bilan kiring. Rol bazadagi hisobingizga qarab aniqlanadi va
+                sizni client, staff yoki admin oqimiga olib boradi.
               </p>
             </div>
 
@@ -97,9 +97,9 @@ export default function LoginPage() {
               </p>
             </div>
             <div className="rounded-[1.4rem] border border-slate-200 bg-slate-50 p-4">
-              <p className="text-xs uppercase tracking-[0.3em] text-slate-500">Demo</p>
-              <p className="mt-4 font-display text-2xl text-slate-950">Hamma rol ochiq</p>
-              <p className="mt-2 text-sm text-slate-600">super_admin, manager, staff va client.</p>
+              <p className="text-xs uppercase tracking-[0.3em] text-slate-500">Test hisob</p>
+              <p className="mt-4 font-display text-2xl text-slate-950">admin@toyxona.uz</p>
+              <p className="mt-2 text-sm text-slate-600">Parol: 123456 (seed orqali yaratiladi).</p>
             </div>
           </div>
 
@@ -122,20 +122,6 @@ export default function LoginPage() {
             />
           </label>
 
-          <label className="block">
-            <span className="mb-2 block text-sm font-medium text-slate-700">Rol</span>
-            <select
-              className="w-full rounded-xl border border-slate-300 px-4 py-3 outline-none transition focus:border-rose-400 focus:ring-2 focus:ring-rose-100"
-              value={role}
-              onChange={(e) => setRole(e.target.value)}
-            >
-              <option value="super_admin">super_admin</option>
-              <option value="manager">manager</option>
-              <option value="staff">staff</option>
-              <option value="client">client</option>
-            </select>
-          </label>
-
           {error ? (
             <p className="rounded-xl border border-rose-200 bg-rose-50 px-4 py-3 text-sm text-rose-700">
               {error}
@@ -148,6 +134,13 @@ export default function LoginPage() {
           >
             {loading ? "Kirilmoqda..." : "Kirish"}
           </button>
+
+          <p className="text-center text-sm text-slate-600">
+            Hisobingiz yo&apos;qmi?{" "}
+            <Link href="/register" className="font-semibold text-slate-950 underline">
+              Ro&apos;yxatdan o&apos;ting
+            </Link>
+          </p>
         </form>
       </section>
     </main>
