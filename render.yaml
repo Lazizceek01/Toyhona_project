@@ -10,6 +10,7 @@ services:
     name: toyxona-backend
     runtime: node
     plan: free
+    branch: devin/1780464891-finish-platform
     healthCheckPath: /api/health
     buildCommand: npm install --include=dev && npm run prisma:generate --workspace @toyxona/backend
     startCommand: npm run prisma:migrate --workspace @toyxona/backend && npm run db:seed --workspace @toyxona/backend && npm run start --workspace @toyxona/backend
@@ -34,6 +35,7 @@ services:
     name: toyxona-frontend
     runtime: node
     plan: free
+    branch: devin/1780464891-finish-platform
     buildCommand: npm install --include=dev && npm run build --workspace @toyxona/frontend
     startCommand: npm run start --workspace @toyxona/frontend
     envVars:
