@@ -8,6 +8,7 @@ import { clearToken, getToken } from "@/lib/auth";
 
 type Shift = { id: string; shiftDate: string; note?: string };
 type Task = { id: string; title: string; description?: string; assigneeId?: string; status: string };
+type StaffMember = { id: string; fullName: string; email: string };
 
 const taskStatuses = ["todo", "doing", "done"];
 
@@ -15,6 +16,7 @@ export default function StaffPage() {
   const router = useRouter();
   const [shifts, setShifts] = useState<Shift[]>([]);
   const [tasks, setTasks] = useState<Task[]>([]);
+  const [staffList, setStaffList] = useState<StaffMember[]>([]);
   const hasToken = Boolean(getToken());
   const [status, setStatus] = useState<"idle" | "loading" | "ready" | "error">(() =>
     hasToken ? "loading" : "idle"
@@ -25,9 +27,19 @@ export default function StaffPage() {
   const [taskForm, setTaskForm] = useState({ title: "", description: "", assigneeId: "", dueDate: "" });
 
   const loadStaffData = useCallback(async () => {
-    const [shiftList, taskList] = await Promise.all([apiFetch<Shift[]>("/staff/shifts"), apiFetch<Task[]>("/staff/tasks")]);
+    const [shiftList, taskList, staffMembers] = await Promise.all([
+      apiFetch<Shift[]>("/staff/shifts"),
+      apiFetch<Task[]>("/staff/tasks"),
+      apiFetch<StaffMember[]>("/users/staff").catch(() => [])
+    ]);
     setShifts(shiftList);
     setTasks(taskList);
+    setStaffList(staffMembers);
+    
+    if (staffMembers[0]) {
+      setTaskForm((prev) => ({ ...prev, assigneeId: prev.assigneeId || staffMembers[0].id }));
+    }
+
     setTaskDrafts(
       taskList.reduce<Record<string, string>>((accumulator, task) => {
         accumulator[task.id] = task.status;
@@ -320,7 +332,21 @@ export default function StaffPage() {
                 <div className="mt-4 space-y-3">
                   <input value={taskForm.title} onChange={(event) => setTaskForm((prev) => ({ ...prev, title: event.target.value }))} placeholder="Sarlavha" className="w-full rounded-xl border border-stone-300 px-3 py-3 text-sm" />
                   <textarea value={taskForm.description} onChange={(event) => setTaskForm((prev) => ({ ...prev, description: event.target.value }))} placeholder="Tavsif" className="min-h-24 w-full rounded-xl border border-stone-300 px-3 py-3 text-sm" />
-                  <input value={taskForm.assigneeId} onChange={(event) => setTaskForm((prev) => ({ ...prev, assigneeId: event.target.value }))} placeholder="Assignee ID" className="w-full rounded-xl border border-stone-300 px-3 py-3 text-sm" />
+                  {staffList.length > 0 ? (
+                    <select
+                      value={taskForm.assigneeId}
+                      onChange={(event) => setTaskForm((prev) => ({ ...prev, assigneeId: event.target.value }))}
+                      className="w-full rounded-xl border border-stone-300 px-3 py-3 text-sm bg-white"
+                    >
+                      {staffList.map((staff) => (
+                        <option key={staff.id} value={staff.id}>
+                          {staff.fullName} ({staff.email})
+                        </option>
+                      ))}
+                    </select>
+                  ) : (
+                    <input value={taskForm.assigneeId} onChange={(event) => setTaskForm((prev) => ({ ...prev, assigneeId: event.target.value }))} placeholder="Assignee ID" className="w-full rounded-xl border border-stone-300 px-3 py-3 text-sm" />
+                  )}
                   <input type="date" value={taskForm.dueDate} onChange={(event) => setTaskForm((prev) => ({ ...prev, dueDate: event.target.value }))} className="w-full rounded-xl border border-stone-300 px-3 py-3 text-sm" />
                   <button className="w-full rounded-xl bg-stone-900 px-4 py-3 text-sm font-semibold text-white">Task qo&apos;shish</button>
                 </div>

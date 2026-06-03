@@ -7,13 +7,16 @@ import { setToken } from "@/lib/auth";
 
 type LoginResponse = {
   token: string;
-  user: { id: string; email: string; role: string };
+  user: { id: string; email: string; role: string; fullName: string };
 };
 
 export default function LoginPage() {
   const router = useRouter();
-  const [email, setEmail] = useState("admin@toyxona.uz");
+  const [isRegister, setIsRegister] = useState(false);
+  const [email, setEmail] = useState("manager@toyxona.uz");
   const [password, setPassword] = useState("123456");
+  const [fullName, setFullName] = useState("");
+  const [phone, setPhone] = useState("");
   const [role, setRole] = useState("manager");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
@@ -24,9 +27,14 @@ export default function LoginPage() {
     setLoading(true);
 
     try {
-      const data = await apiFetch<LoginResponse>("/auth/login", {
+      const endpoint = isRegister ? "/auth/register" : "/auth/login";
+      const payload = isRegister
+        ? { email, password, role, fullName, phone }
+        : { email, password, role };
+
+      const data = await apiFetch<LoginResponse>(endpoint, {
         method: "POST",
-        body: JSON.stringify({ email, password, role })
+        body: JSON.stringify(payload)
       });
 
       setToken(data.token);
@@ -43,7 +51,7 @@ export default function LoginPage() {
 
       router.push("/admin");
     } catch (submitError) {
-      setError(submitError instanceof Error ? submitError.message : "Kirish amalga oshmadi");
+      setError(submitError instanceof Error ? submitError.message : "Amalga oshmadi");
     } finally {
       setLoading(false);
     }
@@ -62,11 +70,10 @@ export default function LoginPage() {
             <div className="max-w-3xl space-y-5">
               <p className="text-sm uppercase tracking-[0.35em] text-amber-200/80">Welcome back</p>
               <h1 className="font-display text-5xl leading-[1.02] tracking-tight sm:text-6xl lg:text-7xl">
-                Tizimga kirish — premium panelga yo&apos;l
+                Tizimga kirish va ro&apos;yxatdan o&apos;tish
               </h1>
               <p className="max-w-2xl text-base leading-8 text-amber-50/80 sm:text-lg">
-                Demo backend har qanday email/parolni qabul qiladi. Tanlangan rol sizni client,
-                staff yoki admin oqimiga olib boradi.
+                To&apos;yxona boshqaruv platformasi. Yangi foydalanuvchilar oqimini yaratish yoki mavjud tizim rollariga kirish orqali boshqaruvni davom ettiring.
               </p>
             </div>
 
@@ -88,42 +95,95 @@ export default function LoginPage() {
         </div>
 
         <form onSubmit={submit} className="w-full space-y-4 rounded-[2rem] bg-white p-8 shadow-[0_20px_60px_rgba(15,23,42,0.08)] ring-1 ring-slate-200">
-          <div className="grid gap-4 sm:grid-cols-[1.1fr_0.9fr]">
+          <div className="flex border-b border-slate-200 pb-2">
+            <button
+              type="button"
+              className={`flex-1 pb-3 text-sm font-semibold transition ${!isRegister ? "border-b-2 border-slate-950 text-slate-950" : "text-slate-500 hover:text-slate-900"}`}
+              onClick={() => {
+                setIsRegister(false);
+                setError("");
+              }}
+            >
+              Tizimga kirish
+            </button>
+            <button
+              type="button"
+              className={`flex-1 pb-3 text-sm font-semibold transition ${isRegister ? "border-b-2 border-slate-950 text-slate-950" : "text-slate-500 hover:text-slate-900"}`}
+              onClick={() => {
+                setIsRegister(true);
+                setError("");
+              }}
+            >
+              Ro&apos;yxatdan o&apos;tish
+            </button>
+          </div>
+
+          <div className="grid gap-4 sm:grid-cols-[1.1fr_0.9fr] pt-2">
             <div className="rounded-[1.4rem] bg-[linear-gradient(180deg,rgba(120,53,15,0.96),rgba(28,25,23,0.96))] p-5 text-white">
-              <p className="text-xs uppercase tracking-[0.3em] text-amber-200">Kirish paneli</p>
-              <h2 className="mt-3 font-display text-3xl leading-tight">Login, rol va yo&apos;nalish</h2>
+              <p className="text-xs uppercase tracking-[0.3em] text-amber-200">{isRegister ? "Registratsiya" : "Kirish paneli"}</p>
+              <h2 className="mt-3 font-display text-3xl leading-tight">{isRegister ? "Hisob ochish" : "Login, rol va yo'nalish"}</h2>
               <p className="mt-3 text-sm leading-6 text-amber-50/75">
-                Foydalanuvchi platformadagi kerakli oqimga bir zumda o&apos;tadi.
+                {isRegister ? "Yangi hisob yaratib darhol platformada ishlashni boshlang." : "Foydalanuvchi platformadagi o'z roliga mos oqimga yo'naltiriladi."}
               </p>
             </div>
             <div className="rounded-[1.4rem] border border-slate-200 bg-slate-50 p-4">
-              <p className="text-xs uppercase tracking-[0.3em] text-slate-500">Demo</p>
-              <p className="mt-4 font-display text-2xl text-slate-950">Hamma rol ochiq</p>
-              <p className="mt-2 text-sm text-slate-600">super_admin, manager, staff va client.</p>
+              <p className="text-xs uppercase tracking-[0.3em] text-slate-500">Tizim rollari</p>
+              <p className="mt-4 font-display text-2xl text-slate-950">Mavjud rollar</p>
+              <p className="mt-2 text-sm text-slate-600">super_admin, manager, staff va client rollari ochiq.</p>
             </div>
           </div>
+
+          {isRegister && (
+            <>
+              <label className="block">
+                <span className="mb-2 block text-sm font-medium text-slate-700">To&apos;liq ism (F.I.Sh)</span>
+                <input
+                  required
+                  className="w-full rounded-xl border border-slate-300 px-4 py-3 outline-none transition focus:border-rose-400 focus:ring-2 focus:ring-rose-100"
+                  value={fullName}
+                  onChange={(e) => setFullName(e.target.value)}
+                  placeholder="Murod Aliyev"
+                />
+              </label>
+
+              <label className="block">
+                <span className="mb-2 block text-sm font-medium text-slate-700">Telefon raqami</span>
+                <input
+                  className="w-full rounded-xl border border-slate-300 px-4 py-3 outline-none transition focus:border-rose-400 focus:ring-2 focus:ring-rose-100"
+                  value={phone}
+                  onChange={(e) => setPhone(e.target.value)}
+                  placeholder="+998901234567"
+                />
+              </label>
+            </>
+          )}
 
           <label className="block">
             <span className="mb-2 block text-sm font-medium text-slate-700">Email</span>
             <input
+              required
+              type="email"
               className="w-full rounded-xl border border-slate-300 px-4 py-3 outline-none transition focus:border-rose-400 focus:ring-2 focus:ring-rose-100"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
+              placeholder="example@toyxona.uz"
             />
           </label>
 
           <label className="block">
             <span className="mb-2 block text-sm font-medium text-slate-700">Parol</span>
             <input
+              required
               type="password"
               className="w-full rounded-xl border border-slate-300 px-4 py-3 outline-none transition focus:border-rose-400 focus:ring-2 focus:ring-rose-100"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
+              placeholder="••••••••"
             />
           </label>
 
           <label className="block">
-            <span className="mb-2 block text-sm font-medium text-slate-700">Rol</span>
+            <span className="mb-2 block text-sm font-medium text-slate-700">Tizimdagi Rol</span>
             <select
               className="w-full rounded-xl border border-slate-300 px-4 py-3 outline-none transition focus:border-rose-400 focus:ring-2 focus:ring-rose-100"
               value={role}
@@ -146,7 +206,7 @@ export default function LoginPage() {
             disabled={loading}
             className="w-full rounded-xl bg-slate-950 px-4 py-3 font-semibold text-white transition hover:bg-slate-800 disabled:cursor-not-allowed disabled:opacity-70"
           >
-            {loading ? "Kirilmoqda..." : "Kirish"}
+            {loading ? (isRegister ? "Ro'yxatdan o'tilmoqda..." : "Kirilmoqda...") : (isRegister ? "Ro'yxatdan o'tish" : "Kirish")}
           </button>
         </form>
       </section>

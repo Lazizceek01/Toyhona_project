@@ -195,6 +195,14 @@ export const domainRoutes = async (app: FastifyInstance) => {
     async (request) => {
       const params = z.object({ roomId: z.string() }).parse(request.params);
       const body = z.object({ body: z.string().min(1) }).parse(request.body);
+
+      // Ensure the ChatRoom exists first
+      await prisma.chatRoom.upsert({
+        where: { id: params.roomId },
+        update: {},
+        create: { id: params.roomId }
+      });
+
       const message = await prisma.message.create({
         data: {
           roomId: params.roomId,
@@ -204,6 +212,18 @@ export const domainRoutes = async (app: FastifyInstance) => {
       });
       app.io.to(`chat:${params.roomId}`).emit(WsEvents.CHAT_MESSAGE, message);
       return message;
+    }
+  );
+
+  app.get(
+    "/users/staff",
+    { preHandler: app.authorize({ roles: ["super_admin", "manager", "staff"] }) },
+    async () => {
+      return prisma.user.findMany({
+        where: { role: "staff" },
+        select: { id: true, fullName: true, email: true },
+        orderBy: { fullName: "asc" }
+      });
     }
   );
 };
