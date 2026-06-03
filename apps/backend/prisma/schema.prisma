@@ -1,0 +1,116 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id            String         @id @default(cuid())
+  email         String         @unique
+  fullName      String
+  phone         String?
+  passwordHash  String
+  role          String
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+  bookings      Booking[]
+  shifts        StaffShift[]   @relation("UserShifts")
+  tasks         Task[]
+  notifications Notification[]
+  sentMessages  Message[]      @relation("MessageSender")
+}
+
+model Hall {
+  id          String    @id @default(cuid())
+  name        String
+  capacity    Int
+  pricePerSeat Float
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  bookings    Booking[]
+}
+
+model Booking {
+  id          String                 @id @default(cuid())
+  hallId      String
+  clientId    String
+  fullName    String
+  phone       String
+  eventDate   String
+  guestCount  Int
+  status      String
+  createdAt   DateTime               @default(now())
+  updatedAt   DateTime               @updatedAt
+  hall        Hall                   @relation(fields: [hallId], references: [id])
+  client      User                   @relation(fields: [clientId], references: [id])
+  statusHistory BookingStatusHistory[]
+  payments    Payment[]
+}
+
+model BookingStatusHistory {
+  id        String   @id @default(cuid())
+  bookingId String
+  status    String
+  changedBy String
+  createdAt DateTime @default(now())
+  booking   Booking  @relation(fields: [bookingId], references: [id])
+}
+
+model Payment {
+  id        String   @id @default(cuid())
+  bookingId String
+  amount    Float
+  status    String
+  createdAt DateTime @default(now())
+  booking   Booking  @relation(fields: [bookingId], references: [id])
+}
+
+model StaffShift {
+  id        String   @id @default(cuid())
+  staffId   String
+  shiftDate String
+  note      String?
+  createdAt DateTime @default(now())
+  staff     User     @relation("UserShifts", fields: [staffId], references: [id])
+}
+
+model Task {
+  id          String   @id @default(cuid())
+  title       String
+  description String?
+  assigneeId  String
+  dueDate     String?
+  status      String   @default("todo")
+  createdAt   DateTime @default(now())
+  assignee    User     @relation(fields: [assigneeId], references: [id])
+}
+
+model ChatRoom {
+  id        String    @id @default(cuid())
+  bookingId String?
+  createdAt DateTime  @default(now())
+  messages  Message[]
+}
+
+model Message {
+  id        String   @id @default(cuid())
+  roomId    String
+  senderId  String
+  body      String
+  createdAt DateTime @default(now())
+  room      ChatRoom @relation(fields: [roomId], references: [id])
+  sender    User     @relation("MessageSender", fields: [senderId], references: [id])
+}
+
+model Notification {
+  id        String   @id @default(cuid())
+  userId    String
+  title     String
+  body      String
+  isRead    Boolean  @default(false)
+  createdAt DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id])
+}
